@@ -1,0 +1,98 @@
+:root {
+  /* Government / PSU Enterprise Palette (CIL / CMPDI Institutional) */
+  --navy-900: #0a192f;
+  --navy-800: #102a43;
+  --navy-700: #1b3a57;
+  --steel-700: #244b70;
+  --steel-600: #335c85;
+  --steel-500: #486581;
+  --cyan-600: #0b7285;
+  --cyan-500: #15aabf;
+  --cyan-100: #e3fafc;
+  --purple-500: #5c7cfa;
+  --purple-100: #edf2ff;
+  --green-600: #1b7a43;
+  --green-500: #2b8a3e;
+  --green-100: #ebfbee;
+  --amber-600: #b0570b;
+  --amber-500: #d97706;
+  --amber-100: #fff9db;
+  --red-600: #c92a2a;
+  --red-500: #e03131;
+  --red-100: #ffe3e3;
+
+  /* Neutrals */
+  --grey-900: #102a43;
+  --grey-700: #334e68;
+  --grey-500: #627d98;
+  --grey-300: #bcccdc;
+  --grey-200: #d9e2ec;
+  --grey-100: #f0f4f8;
+  --white: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --page-bg: #f4f6f8;
+  --surface: #ffffff;
+  --surface-strong: #f8fafc;
+  --surface-hover: #f1f5f9;
+  --border: #d2dae2;
+  --border-subtle: #e5ebf0;
+
+  /* Typography */
+  --text-primary: #102a43;
+  --text-secondary: #486581;
+  --text-muted: #627d98;
+
+  /* Restrained Shadows & Corners (Institutional, not startup) */
+  --shadow-soft: 0 4px 12px rgba(16, 42, 67, 0.08);
+  --shadow-card: 0 1px 3px rgba(16, 42, 67, 0.06), 0 1px 2px rgba(16, 42, 67, 0.04);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Semantic Tone Indicators */
+  --tone-neutral: var(--steel-600);
+  --tone-neutral-soft: #f0f4f8;
+  --tone-neutral-border: #bcccdc;
+
+  --tone-info: var(--cyan-600);
+  --tone-info-soft: #e3fafc;
+  --tone-info-border: #99e9f2;
+
+  --tone-positive: var(--green-600);
+  --tone-positive-soft: #ebfbee;
+  --tone-positive-border: #b2f2bb;
+
+  --tone-caution: var(--amber-600);
+  --tone-caution-soft: #fff9db;
+  --tone-caution-border: #ffe066;
+
+  --tone-critical: var(--red-600);
+  --tone-critical-soft: #ffe3e3;
+  --tone-critical-border: #ffc9c9;
+
+  --tone-ai: var(--steel-700);
+  --tone-ai-soft: #edf2ff;
+  --tone-ai-border: #bac8ff;
+
+  --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 15px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 22px;
+  --font-size-3xl: 26px;
+  --line-height-tight: 1.25;
+  --line-height-body: 1.5;
+}
