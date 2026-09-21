@@ -20,6 +20,10 @@ export default function AIIntelligenceTabs() {
     }
   }
 
+  if (!isTopics) {
+    return <Outlet />
+  }
+
   return (
     <div className="tabbed-page-container">
       <div className="page-header">

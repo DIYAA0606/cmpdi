@@ -48,7 +48,7 @@ function AppRoutes() {
 
         {/* 3. AI Intelligence (Copilot + Topic Intelligence) */}
         <Route path="/ai-intelligence" element={<AIIntelligenceTabs />}>
-          <Route index element={<AIQueryPage hideHeader />} />
+          <Route index element={<AIQueryPage />} />
           <Route path="topics" element={<TopicIntelligencePage hideHeader />} />
         </Route>
 

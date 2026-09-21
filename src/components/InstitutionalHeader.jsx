@@ -38,13 +38,13 @@ export default function InstitutionalHeader() {
 
       <header className="dashboard-site-header">
         <div className="dashboard-shell-inner dashboard-site-header__inner">
-          <div className="dashboard-brand" aria-label="CMPDI Mining Intelligence Platform">
+          <Link to="/" className="dashboard-brand" style={{ textDecoration: 'none' }} aria-label="CMPDI Mining Intelligence Platform">
             <div className="dashboard-logo-mark">CMPDI</div>
             <div className="dashboard-brand-text">
               <span className="dashboard-brand-title">Mining Intelligence Platform</span>
               <span className="dashboard-brand-subtitle">Coal India Limited</span>
             </div>
-          </div>
+          </Link>
 
           <nav className="dashboard-nav" aria-label="Main navigation">
             {NAV_ITEMS.map(({ label, path }) => (
@@ -68,10 +68,43 @@ export default function InstitutionalHeader() {
             ))}
           </nav>
 
-          <Link to="/dashboard" className="dashboard-header-cta">
-            <span>Open Dashboard</span>
-            <ArrowIcon />
-          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Link to="/dashboard" className="dashboard-header-cta">
+              <span>Open Dashboard</span>
+              <ArrowIcon />
+            </Link>
+
+            <div
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                background: '#efece6',
+                border: '1px solid var(--border)',
+                display: 'grid',
+                placeItems: 'center',
+                fontWeight: 700,
+                fontSize: '12px',
+                color: 'var(--navy-900)',
+                position: 'relative',
+              }}
+              title="User Account"
+            >
+              DT
+              <span
+                style={{
+                  position: 'absolute',
+                  bottom: '1px',
+                  right: '1px',
+                  width: '9px',
+                  height: '9px',
+                  borderRadius: '50%',
+                  background: '#22c55e',
+                  border: '2px solid #ffffff',
+                }}
+              />
+            </div>
+          </div>
         </div>
       </header>
     </>

@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import InstitutionalHeader from '../components/InstitutionalHeader'
-import InstitutionalFooter from '../components/InstitutionalFooter'
 import DocumentTable from '../components/documents/DocumentTable'
 import UploadArea from '../components/documents/UploadArea'
 import { documentTypes, documentsMock, statuses, subsidiaries } from '../data/documentsMock'
@@ -99,8 +97,6 @@ export default function DocumentsPage() {
 
   return (
     <div className="documents-redesign">
-      <InstitutionalHeader />
-
       {toast && (
         <div style={{
           position: 'fixed',
@@ -449,8 +445,6 @@ export default function DocumentsPage() {
           )}
         </section>
       </main>
-
-      <InstitutionalFooter />
     </div>
   )
 }

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import InstitutionalHeader from '../components/InstitutionalHeader'
+import InstitutionalFooter from '../components/InstitutionalFooter'
 import { dashboardSummary } from '../data/dashboardMock'
 import '../styles/LandingPage.css'
 
@@ -137,44 +139,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page">
-      <div className="landing-utility-bar">
-        <div className="landing-shell landing-utility-bar__inner">
-          <div className="landing-utility-meta">
-            <span>Coal India Limited</span>
-            <span>CMPDI / Central Mine Planning & Design Institute</span>
-          </div>
-          <div className="landing-utility-links">
-            <a href="#platform">Platform</a>
-            <a href="#capabilities">Capabilities</a>
-            <a href="#insight">Operations</a>
-          </div>
-        </div>
-      </div>
-
-      <header className="landing-header">
-        <div className="landing-shell landing-header__inner">
-          <div className="landing-brand" aria-label="CMPDI Mining Intelligence Platform">
-            <div className="landing-logo-mark">CMPDI</div>
-            <div className="landing-brand-text">
-              <span className="landing-brand-title">Mining Intelligence Platform</span>
-              <span className="landing-brand-subtitle">Coal India Limited</span>
-            </div>
-          </div>
-
-          <nav className="landing-header-nav" aria-label="Main navigation">
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/documents">Documents</Link>
-            <Link to="/ai-intelligence">AI Intelligence</Link>
-            <Link to="/reports">Reports</Link>
-            <Link to="/mining-map">Mining Map</Link>
-          </nav>
-
-          <Link to="/dashboard" className="landing-header-cta">
-            <span>Open Dashboard</span>
-            <ArrowIcon />
-          </Link>
-        </div>
-      </header>
+      <InstitutionalHeader />
 
       <main className="landing-main">
         <section className="landing-hero">
@@ -351,21 +316,7 @@ export default function LandingPage() {
 
       </main>
 
-      <footer className="landing-footer">
-        <div className="landing-shell landing-footer__inner">
-          <div className="landing-footer-brand-block">
-            <div className="landing-footer-brand">Central Mine Planning & Design Institute Limited (CMPDI)</div>
-            <div className="landing-footer-text">
-              A Mini Ratna Category-I Public Sector Undertaking under Coal India Limited and the Ministry of Coal, Government of India.
-            </div>
-          </div>
-
-          <div className="landing-footer-meta">
-            <span>© {new Date().getFullYear()} CMPDI / Coal India Limited</span>
-            <span>All Rights Reserved</span>
-          </div>
-        </div>
-      </footer>
+      <InstitutionalFooter />
     </div>
   )
 }
