@@ -128,8 +128,8 @@ export default function Sidebar({ isDrawerOpen = false, isCollapsed = false, onC
       <div className="sidebar-brand">
         <div className="sidebar-brand__mark">CMP</div>
         <div>
-          <div className="sidebar-brand__title">CMPDI</div>
-          <div className="sidebar-brand__subtitle">Mining Intelligence</div>
+          <div className="sidebar-brand__title">CMPDI / CIL</div>
+          <div className="sidebar-brand__subtitle">Mining Intelligence Platform</div>
         </div>
       </div>
 

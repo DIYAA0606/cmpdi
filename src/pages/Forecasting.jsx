@@ -54,11 +54,26 @@ export default function ForecastingPage({ hideHeader = false }) {
       )}
 
       <Card className="forecasting-card">
-        <div className="section-header">
+        <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <p className="eyebrow">Scenario control</p>
             <h2>Forecast assumptions</h2>
           </div>
+          <span
+            style={{
+              fontSize: '11px',
+              fontWeight: 700,
+              padding: '4px 10px',
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--purple-100)',
+              color: 'var(--purple-500)',
+              border: '1px solid var(--tone-ai-border)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}
+          >
+            🤖 Model-based forecast
+          </span>
         </div>
 
         <div className="forecasting-controls">

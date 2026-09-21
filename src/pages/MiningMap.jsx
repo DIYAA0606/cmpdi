@@ -1,26 +1,26 @@
 import { useMemo, useState } from 'react'
-import Card from '../components/ui/Card'
 import IndiaMap from '../components/map/IndiaMap'
 import LayerToggle from '../components/map/LayerToggle'
 import StateDrilldownPanel from '../components/map/StateDrilldownPanel'
 import { miningMapMock } from '../data/miningMapMock'
 
-const layers = ['Production', 'Growth', 'Dispatch', 'Resources', 'Reserves', 'Exploration Activity', 'Number of Reports', 'Historical Activity', 'Data Quality', 'Data Conflicts']
+const layers = [
+  'Production',
+  'Dispatch',
+  'Exploration Activity',
+  'Reserves',
+  'Data Quality',
+]
 
 const palette = {
-  Production: '#2e7ab5',
-  Growth: '#4ca88c',
-  Dispatch: '#9b7ae8',
-  Resources: '#e49a1d',
-  Reserves: '#3aa9c8',
-  'Exploration Activity': '#7b66dd',
-  'Number of Reports': '#d06ea8',
-  'Historical Activity': '#2b6b8f',
-  'Data Quality': '#6ca15f',
-  'Data Conflicts': '#d25d5d',
+  Production: '#1b3a57',
+  Dispatch: '#2b4c7e',
+  'Exploration Activity': '#5c7cfa',
+  Reserves: '#0b7285',
+  'Data Quality': '#1b7a43',
 }
 
-export default function MiningMapPage() {
+export default function MiningMapPage({ hideHeader = false }) {
   const [activeLayer, setActiveLayer] = useState('Production')
   const [selectedState, setSelectedState] = useState('Odisha')
 
@@ -30,29 +30,57 @@ export default function MiningMapPage() {
   )
 
   return (
-    <div className="map-page">
-      <div className="page-header">
-        <div>
-          <p className="eyebrow">Mining intelligence map</p>
-          <h1>India state overlay</h1>
-        </div>
-      </div>
-
-      <div className="map-layout" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 0.85fr) minmax(0, 1.4fr)', gap: '20px', alignItems: 'start' }}>
-        <Card className="map-card map-card--detail">
-          <StateDrilldownPanel stateData={selectedStateData} />
-        </Card>
-
-        <Card className="map-card map-card--map">
-          <div className="section-header">
-            <div>
-              <p className="eyebrow">Geospatial Overlay</p>
-              <h2>India Coal Sector Operations Map</h2>
-            </div>
+    <div className="map-page-workspace">
+      {!hideHeader && (
+        <div className="page-header" style={{ marginBottom: '14px' }}>
+          <div>
+            <p className="eyebrow">Geospatial Intelligence</p>
+            <h1>India Mining Operations Map</h1>
           </div>
-          <LayerToggle layers={layers} activeLayer={activeLayer} onChange={setActiveLayer} />
+        </div>
+      )}
+
+      {/* Sleek Minimal Layer Bar */}
+      <LayerToggle layers={layers} activeLayer={activeLayer} onChange={setActiveLayer} />
+
+      {/* Map-First Split Workspace: 75% Map Canvas + 25% Docked Regional Panel */}
+      <div
+        className="map-workspace-layout"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 2.8fr) minmax(280px, 1fr)',
+          gap: '20px',
+          alignItems: 'start',
+        }}
+      >
+        {/* Primary Map Canvas (Un-enclosed by outer card wrapper) */}
+        <div
+          className="map-primary-canvas"
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-md)',
+            padding: '20px',
+            boxShadow: 'var(--shadow-card)',
+            minHeight: '560px',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, color: 'var(--navy-900)' }}>
+              Interactive Basin & Subsidiary Map
+            </div>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+              Active Overlay: <strong>{activeLayer}</strong>
+            </span>
+          </div>
+
           <IndiaMap layerColor={palette[activeLayer]} onSelectState={setSelectedState} selectedState={selectedState} />
-        </Card>
+        </div>
+
+        {/* Regional Docked Side Panel */}
+        <div className="map-dock-sidebar">
+          <StateDrilldownPanel stateData={selectedStateData} />
+        </div>
       </div>
     </div>
   )

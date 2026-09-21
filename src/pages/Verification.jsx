@@ -20,6 +20,7 @@ export default function VerificationPage({ hideHeader = false }) {
   const [items, setItems] = useState(verificationQueueMock)
   const [selectedId, setSelectedId] = useState(verificationQueueMock[0].id)
   const [filter, setFilter] = useState('All')
+  const [toastMessage, setToastMessage] = useState('')
   const [recentActions, setRecentActions] = useState([
     {
       id: 1,
@@ -73,6 +74,9 @@ export default function VerificationPage({ hideHeader = false }) {
       },
       ...current,
     ].slice(0, 8))
+
+    setToastMessage(`✓ Conflict resolved (${resolvedStatus}) — System Data Quality updated`)
+    window.setTimeout(() => setToastMessage(''), 3000)
   }
 
   return (
@@ -83,6 +87,26 @@ export default function VerificationPage({ hideHeader = false }) {
             <p className="eyebrow">Verification</p>
             <h1>Review queue</h1>
           </div>
+        </div>
+      )}
+
+      {toastMessage && (
+        <div
+          style={{
+            background: 'var(--green-100)',
+            border: '1px solid var(--tone-positive-border)',
+            color: 'var(--green-600)',
+            padding: '12px 18px',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: '13px',
+            fontWeight: 700,
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          {toastMessage}
         </div>
       )}
 

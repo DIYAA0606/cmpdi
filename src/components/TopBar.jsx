@@ -1,18 +1,36 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { documentsMock } from '../data/documentsMock'
 import { reportsMock } from '../data/reportsMock'
-
-const notifications = [
-  { id: 1, title: 'Document validation complete', detail: 'Annual Coal Production Report approved', unread: true },
-  { id: 2, title: 'New evidence flagged', detail: 'WCL geology note requires review', unread: true },
-  { id: 3, title: 'Report export ready', detail: '2025-26 summary package is available', unread: false },
-]
+import { mockNotifications } from '../data/mockNotifications'
+import { mockPastQueries } from '../data/mockPastQueries'
 
 export default function TopBar({ onMenuToggle }) {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [query, setQuery] = useState('')
   const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [notificationList, setNotificationList] = useState(mockNotifications)
+
+  const unreadCount = useMemo(
+    () => notificationList.filter((item) => item.unread).length,
+    [notificationList],
+  )
+
+  const handleNotificationClick = (item) => {
+    setNotificationList((prev) =>
+      prev.map((n) => (n.id === item.id ? { ...n, unread: false } : n)),
+    )
+    setNotificationsOpen(false)
+    if (item.route) {
+      navigate(item.route)
+    }
+  }
+
+  const handleMarkAllRead = () => {
+    setNotificationList((prev) => prev.map((n) => ({ ...n, unread: false })))
+  }
 
   const results = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
@@ -39,13 +57,27 @@ export default function TopBar({ onMenuToggle }) {
         kind: 'report',
       }))
 
-    return [...documentResults, ...reportResults].slice(0, 6)
-  }, [query])
+    const queryResults = mockPastQueries
+      .filter((q) => [q.title, q.queryText, q.category].join(' ').toLowerCase().includes(normalizedQuery))
+      .map((q) => ({
+        id: q.id,
+        title: q.title,
+        subtitle: q.subtitle,
+        queryText: q.queryText,
+        kind: 'ai-query',
+        isDemoData: q.isDemoData,
+      }))
 
-  const unreadCount = notifications.filter((item) => item.unread).length
+    return [...queryResults, ...documentResults, ...reportResults].slice(0, 8)
+  }, [query])
 
   const handleSelectResult = (item) => {
     setQuery('')
+
+    if (item.kind === 'ai-query') {
+      navigate('/ai-intelligence', { state: { initialQuery: item.queryText } })
+      return
+    }
 
     if (item.kind === 'document') {
       navigate(`/documents/${item.id}`)
@@ -80,7 +112,24 @@ export default function TopBar({ onMenuToggle }) {
             {results.length ? (
               results.map((item) => (
                 <button key={`${item.kind}-${item.id}`} type="button" className="topbar__result" onClick={() => handleSelectResult(item)}>
-                  <strong>{item.title}</strong>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <strong>{item.title}</strong>
+                    {item.isDemoData && (
+                      <span
+                        style={{
+                          fontSize: '9px',
+                          fontWeight: 800,
+                          padding: '2px 6px',
+                          borderRadius: '3px',
+                          background: 'var(--purple-100)',
+                          color: 'var(--purple-500)',
+                          border: '1px solid var(--tone-ai-border)',
+                        }}
+                      >
+                        DEMO QUERY
+                      </span>
+                    )}
+                  </div>
                   <span>{item.subtitle}</span>
                 </button>
               ))
@@ -99,24 +148,85 @@ export default function TopBar({ onMenuToggle }) {
           </button>
 
           {notificationsOpen && (
-            <div className="topbar__notification-panel" role="dialog" aria-label="Notification center">
-              {notifications.map((item) => (
-                <div key={item.id} className="topbar__notification-item">
-                  <div className="topbar__notification-title">{item.title}</div>
-                  <div className="topbar__notification-detail">{item.detail}</div>
+            <div
+              className="topbar__notification-panel"
+              role="dialog"
+              aria-label="Notification center"
+              style={{ width: '320px', padding: '12px' }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justify: 'space-between',
+                  alignItems: 'center',
+                  paddingBottom: '8px',
+                  marginBottom: '8px',
+                  borderBottom: '1px solid var(--border-subtle)',
+                }}
+              >
+                <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--navy-900)' }}>
+                  Notifications {unreadCount > 0 && `(${unreadCount})`}
                 </div>
-              ))}
+                {unreadCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleMarkAllRead}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--steel-700)',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Mark all as read
+                  </button>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '320px', overflowY: 'auto' }}>
+                {notificationList.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => handleNotificationClick(item)}
+                    className="topbar__notification-item"
+                    style={{
+                      padding: '10px',
+                      borderRadius: 'var(--radius-sm)',
+                      background: item.unread ? 'var(--tone-neutral-soft)' : 'transparent',
+                      borderLeft: item.unread ? '3px solid var(--steel-700)' : '3px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'background 0.15s ease',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: item.unread ? 800 : 700, color: 'var(--navy-900)' }}>
+                        {item.title}
+                      </span>
+                      <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{item.timestamp}</span>
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                      {item.detail}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
 
-        <div className="topbar__profile">
-          <div className="topbar__avatar">AK</div>
-          <div className="topbar__profile-copy">
-            <div className="topbar__name">Amit Kumar</div>
-            <div className="topbar__role">Operations Director</div>
+        {user ? (
+          <div className="topbar__profile" style={{ gap: '12px' }}>
+            <div className="topbar__avatar">{user.avatar}</div>
+            <div className="topbar__profile-copy">
+              <div className="topbar__name">{user.name}</div>
+              <div className="topbar__role" style={{ color: 'var(--steel-700)', fontWeight: 700 }}>
+                {user.role} • {user.subsidiary}
+              </div>
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </header>
   )

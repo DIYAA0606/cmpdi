@@ -1,34 +1,60 @@
 const workflowSteps = [
-  'Question',
   'Intent Detection',
   'Query Planning',
-  'Retrieval',
+  'Multi-Source Retrieval',
   'Extraction / Calculation',
-  'Validation',
-  'Cross-check',
-  'Answer',
-  'Evidence',
-  'Confidence',
+  'Cross-Validation',
+  'Evidence Mapping',
+  'Confidence Verification',
 ]
 
 export default function StepIndicator({ activeStep = 0, loading = false }) {
   return (
-    <div className="ai-query-workflow">
-      <div className="ai-query-workflow__header">
-        <p className="eyebrow">Workflow</p>
-        <h3>{loading ? 'Generating answer...' : 'Verified reasoning flow'}</h3>
+    <div
+      className="processing-verification-status"
+      style={{
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
+        borderRadius: 'var(--radius-md)',
+        padding: '16px 20px',
+        margin: '16px 0',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, color: 'var(--navy-900)' }}>
+          {loading ? '⚙ Executing Multi-Source Extraction Pipeline...' : '✓ AI Audit & Verification Pipeline Complete'}
+        </div>
+        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+          Step {Math.min(activeStep + 1, workflowSteps.length)} of {workflowSteps.length}
+        </span>
       </div>
 
-      <div className="ai-query-workflow__steps">
-        {workflowSteps.map((step, index) => (
-          <div
-            key={step}
-            className={`ai-query-workflow__step ${index <= activeStep ? 'is-active' : ''} ${loading && index === activeStep ? 'is-current' : ''}`}
-          >
-            <span>{index + 1}</span>
-            <small>{step}</small>
-          </div>
-        ))}
+      <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px' }}>
+        {workflowSteps.map((step, index) => {
+          const isDone = index < activeStep
+          const isCurrent = loading && index === activeStep
+
+          return (
+            <div
+              key={step}
+              style={{
+                flex: 1,
+                minWidth: '95px',
+                padding: '6px 8px',
+                background: isCurrent ? 'var(--navy-800)' : isDone ? 'var(--surface-strong)' : 'transparent',
+                color: isCurrent ? 'var(--white)' : isDone ? 'var(--text-primary)' : 'var(--text-muted)',
+                border: isCurrent ? '1px solid var(--navy-900)' : '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: isCurrent || isDone ? 600 : 400,
+                textAlign: 'center',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {isDone ? '✓ ' : ''}{step}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

@@ -39,37 +39,41 @@ export default function DataQualityDashboard({ metrics }) {
 
   return (
     <div className="governance-dashboard" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      {/* Reference 3 inspired central Arc Gauge Summary Header */}
+      {/* 1. DATA TRUST SCORE Header Section (Stage D requirement) */}
       <Card className="governance-card" style={{ padding: '24px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(240px, 1fr) minmax(280px, 1.2fr)', gap: '24px', alignItems: 'center' }}>
           <div>
-            <p className="eyebrow">Data Governance Engine</p>
-            <h2 style={{ margin: '4px 0 8px', fontSize: '20px' }}>CMPDI Platform Data Quality</h2>
+            <p className="eyebrow">Institutional Data Monitoring System</p>
+            <h2 style={{ margin: '4px 0 8px', fontSize: '22px', fontWeight: 800, color: 'var(--navy-900)' }}>
+              DATA TRUST SCORE: {metrics.extractionAccuracy}%
+            </h2>
             <p style={{ margin: 0, fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-              Continuous automated validation across geological reports, production registers, and subsidiary filings.
+              Current system data quality based on currently processed records across geological surveys, 
+              subsidiary production registers, and official filings.
             </p>
             <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
-              <Badge tone="success">96.4% Verified</Badge>
-              <Badge tone="neutral">81% Automated</Badge>
+              <Badge tone="success">96.4% Verified Accuracy</Badge>
+              <Badge tone="neutral">81% Automated Extraction</Badge>
+              <Badge tone="info">8 CIL Subsidiaries Covered</Badge>
             </div>
           </div>
 
-          {/* Semi-circular gauge visual */}
+          {/* Semi-circular arc gauge visual */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', padding: '16px', background: 'var(--surface-strong)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
             <svg width="120" height="70" viewBox="0 0 120 70" aria-hidden="true">
               <path d="M 10 65 A 50 50 0 0 1 110 65" fill="none" stroke="var(--border)" strokeWidth="10" strokeLinecap="round" />
-              <path d="M 10 65 A 50 50 0 0 1 102 30" fill="none" stroke="var(--navy-800)" strokeWidth="10" strokeLinecap="round" />
+              <path d="M 10 65 A 50 50 0 0 1 102 30" fill="none" stroke="var(--steel-700)" strokeWidth="10" strokeLinecap="round" />
             </svg>
             <div>
-              <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--navy-900)' }}>{metrics.extractionAccuracy}%</div>
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontWeight: 600 }}>System Extraction Accuracy</div>
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--green-600)', marginTop: '4px' }}>✓ Meets Ministry QA Standard</div>
+              <div style={{ fontSize: '26px', fontWeight: 800, color: 'var(--navy-900)' }}>{metrics.extractionAccuracy}%</div>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontWeight: 600 }}>System Data Trust Index</div>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--green-600)', marginTop: '4px', fontWeight: 600 }}>✓ Verified against CIL standards</div>
             </div>
           </div>
         </div>
       </Card>
 
-      {/* Reference 3 inspired 4-column structured metrics */}
+      {/* 2. Key Quality Metrics (4 Structured Columns) */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
         {sections.map((section) => (
           <Card key={section.title} style={{ padding: '18px' }}>
@@ -87,6 +91,21 @@ export default function DataQualityDashboard({ metrics }) {
           </Card>
         ))}
       </div>
+
+      {/* 3. Issues Requiring Attention Banner */}
+      <Card style={{ padding: '18px 24px', background: 'var(--surface-strong)', borderLeft: '4px solid var(--amber-500)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, color: 'var(--navy-900)' }}>
+              Issues Requiring Review: {metrics.conflictingValues} Conflicting Values & {metrics.lowConfidenceFields} Low-Confidence Fields
+            </div>
+            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginTop: '2px' }}>
+              Based on currently processed records. Open items have been routed to the human verification review queue.
+            </div>
+          </div>
+          <Badge tone="warning">Pending Sign-off</Badge>
+        </div>
+      </Card>
     </div>
   )
 }

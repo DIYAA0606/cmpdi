@@ -5,16 +5,13 @@ import StepIndicator from '../components/ai-query/StepIndicator'
 import { aiQueryExamples } from '../data/aiQueryMock'
 
 const workflowSteps = [
-  'Question',
   'Intent Detection',
   'Query Planning',
-  'Retrieval',
+  'Multi-Source Retrieval',
   'Extraction / Calculation',
-  'Validation',
-  'Cross-check',
-  'Answer',
-  'Evidence',
-  'Confidence',
+  'Cross-Validation',
+  'Evidence Mapping',
+  'Confidence Verification',
 ]
 
 function normalizeQuestion(value) {
@@ -41,7 +38,7 @@ export default function AIQueryPage({ hideHeader = false }) {
 
         return current + 1
       })
-    }, 260)
+    }, 160)
 
     return () => window.clearInterval(timer)
   }, [loading])
@@ -67,7 +64,7 @@ export default function AIQueryPage({ hideHeader = false }) {
       setSelectedEvidence(selected.answer.findings[0].evidence)
       setLoading(false)
       setActiveStep(workflowSteps.length - 1)
-    }, 1200)
+    }, 1150)
   }
 
   return (
@@ -75,8 +72,8 @@ export default function AIQueryPage({ hideHeader = false }) {
       {!hideHeader && (
         <div className="page-header">
           <div>
-            <p className="eyebrow">AI Query</p>
-            <h1>Copilot intelligence workspace</h1>
+            <p className="eyebrow">Conversational Intelligence</p>
+            <h1>AI Mining Research Assistant</h1>
           </div>
         </div>
       )}

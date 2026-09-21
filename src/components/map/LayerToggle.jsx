@@ -1,39 +1,54 @@
 export default function LayerToggle({ layers, activeLayer, onChange }) {
-  const primaryLayers = ['Production', 'Reserves', 'Exploration Activity', 'Data Quality']
+  const mapLayers = [
+    { id: 'Production', label: 'Production' },
+    { id: 'Dispatch', label: 'Dispatch' },
+    { id: 'Exploration Activity', label: 'Exploration' },
+    { id: 'Reserves', label: 'Reserves' },
+    { id: 'Data Quality', label: 'Coal Quality & Data Trust' },
+  ]
 
   return (
-    <div className="layer-toggle" style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '16px' }}>
-      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-        {primaryLayers.map((layer) => (
+    <div
+      className="map-layer-toolbar"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        flexWrap: 'wrap',
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
+        borderRadius: 'var(--radius-sm)',
+        padding: '6px 10px',
+        marginBottom: '14px',
+      }}
+    >
+      <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--text-secondary)', marginRight: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        Spatial Layer:
+      </span>
+      {mapLayers.map((layer) => {
+        const isActive = activeLayer === layer.id
+        return (
           <button
-            key={layer}
+            key={layer.id}
             type="button"
-            className={`layer-toggle__button ${activeLayer === layer ? 'is-active' : ''}`}
-            onClick={() => onChange(layer)}
+            className={`map-layer-pill ${isActive ? 'is-active' : ''}`}
+            onClick={() => onChange(layer.id)}
+            style={{
+              border: isActive ? '1px solid var(--navy-800)' : '1px solid var(--border)',
+              background: isActive ? 'var(--navy-800)' : 'var(--surface-strong)',
+              color: isActive ? 'var(--white)' : 'var(--text-primary)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '4px 10px',
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: isActive ? 700 : 500,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
           >
-            {layer}
+            {layer.label}
           </button>
-        ))}
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginLeft: 'auto' }}>
-        <label htmlFor="more-layers" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontWeight: 600 }}>
-          All Overlays:
-        </label>
-        <select
-          id="more-layers"
-          className="ui-select"
-          value={activeLayer}
-          onChange={(e) => onChange(e.target.value)}
-          style={{ padding: '4px 8px', fontSize: 'var(--font-size-xs)', borderRadius: 'var(--radius-sm)', width: 'auto' }}
-        >
-          {layers.map((layer) => (
-            <option key={layer} value={layer}>
-              {layer}
-            </option>
-          ))}
-        </select>
-      </div>
+        )
+      })}
     </div>
   )
 }

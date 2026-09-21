@@ -23,13 +23,18 @@ import ParliamentaryQueryPage from './pages/ParliamentaryQuery'
 import MiningMapPage from './pages/MiningMap'
 import VerificationPage from './pages/Verification'
 import DesignSystemPage from './pages/DesignSystemPage'
+import LandingPage from './pages/LandingPage'
+import { AuthProvider } from './context/AuthContext'
 import './App.css'
 
-function App() {
+function AppRoutes() {
   return (
     <Routes>
+      {/* Standalone Landing Page */}
+      <Route path="/" element={<LandingPage />} />
+
+      {/* Internal Application Shell (Direct Access) */}
       <Route element={<AppShell />}>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
         {/* 1. Dashboard & Forecasting */}
         <Route path="/dashboard" element={<DashboardTabs />}>
@@ -79,6 +84,14 @@ function App() {
 
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   )
 }
 

@@ -3,11 +3,13 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import TopBar from '../components/TopBar'
 import Breadcrumbs from '../components/Breadcrumbs'
+import OnboardingWalkthrough from '../components/ui/OnboardingWalkthrough'
 
 export default function AppShell() {
   const location = useLocation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState(true)
 
   useEffect(() => {
     setIsMobileMenuOpen(false)
@@ -41,6 +43,9 @@ export default function AppShell() {
           <Outlet />
         </main>
       </div>
+
+      {/* First-Login / Initial Session Onboarding Walkthrough */}
+      <OnboardingWalkthrough isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
     </div>
   )
 }
