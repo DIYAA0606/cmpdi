@@ -138,40 +138,124 @@ export default function MiningMapPage() {
         <div className="mining-map-toast">{toast}</div>
       )}
 
-      {/* Geospatial Intelligence Header */}
-      <section className="platform-page-header">
-        <p className="platform-kicker">GEOSPATIAL INTELLIGENCE</p>
-        <h1>Mining Map &amp; Assets</h1>
-        <p>
-          Interactive geospatial view of coalfields, mines, and critical infrastructure across CIL subsidiaries for better planning, monitoring, and decision-making.
-        </p>
+      {/* Geospatial Intelligence Header Banner */}
+      <section
+        style={{
+          position: 'relative',
+          marginBottom: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          minHeight: '110px',
+        }}
+      >
+        <div style={{ maxWidth: '640px', zIndex: 2 }}>
+          <p
+            style={{
+              margin: '0 0 6px',
+              color: '#d9531e',
+              fontSize: '11px',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              fontWeight: 700,
+            }}
+          >
+            GEOSPATIAL INTELLIGENCE
+          </p>
+          <h1
+            style={{
+              margin: 0,
+              fontFamily: 'Georgia, serif',
+              fontSize: 'clamp(2.2rem, 3.2vw, 3.4rem)',
+              lineHeight: 1.05,
+              color: 'var(--navy-900)',
+              fontWeight: 700,
+              letterSpacing: '-0.04em',
+            }}
+          >
+            Mining Map &amp; Assets
+          </h1>
+          <p
+            style={{
+              margin: '10px 0 0',
+              color: 'var(--text-secondary)',
+              fontSize: '14px',
+              lineHeight: 1.5,
+            }}
+          >
+            Interactive geospatial view of coalfields, mines, and critical infrastructure across CIL subsidiaries for better planning, monitoring, and decision-making.
+          </p>
+        </div>
+
+        {/* Mountain Silhouette Background & Tagline */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '24px',
+            position: 'relative',
+            zIndex: 2,
+          }}
+        >
+          {/* Mountain Silhouette SVG */}
+          <div
+            style={{
+              position: 'absolute',
+              right: '0px',
+              top: '-30px',
+              width: '440px',
+              height: '140px',
+              pointerEvents: 'none',
+              opacity: 0.35,
+              zIndex: 1,
+            }}
+          >
+            <svg viewBox="0 0 440 140" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+              <path
+                d="M 40 140 L 120 50 L 180 85 L 280 20 L 360 75 L 440 35 L 440 140 Z"
+                fill="rgba(18, 58, 62, 0.08)"
+                stroke="rgba(18, 58, 62, 0.12)"
+                strokeWidth="1"
+              />
+              <path
+                d="M 90 140 L 170 70 L 230 95 L 320 45 L 390 90 L 440 70 L 440 140 Z"
+                fill="rgba(18, 58, 62, 0.05)"
+              />
+              <path d="M 280 20 L 260 140" stroke="rgba(18, 58, 62, 0.1)" strokeWidth="1" />
+              <path d="M 120 50 L 140 140" stroke="rgba(18, 58, 62, 0.08)" strokeWidth="1" />
+            </svg>
+          </div>
+
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 2,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+            }}
+          >
+            <div style={{ textAlign: 'right', fontSize: '13px', fontFamily: 'Georgia, serif', color: 'var(--navy-900)', fontWeight: 600, lineHeight: 1.3 }}>
+              From Maps to<br />Smarter Mining
+            </div>
+            <div style={{ width: '48px', height: '2px', background: '#d9531e' }} />
+          </div>
+        </div>
       </section>
 
       {/* Operational Control Bar */}
-      <section className="doc-control-bar">
-        <div className="doc-upload-single">
-          <button
-            type="button"
-            className="doc-upload-button-primary"
-            onClick={handleExportMap}
-          >
-            <span>EXPORT MAP DATA</span>
-            <span aria-hidden="true">&rarr;</span>
-          </button>
-          <span className="doc-upload-subtext">SHP, KML, CSV (GIS Data)</span>
+      <section className="doc-control-bar" style={{ gap: '12px' }}>
+        <div className="doc-search-box" style={{ maxWidth: '340px' }}>
+          <SearchIcon />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search mines, coalfields, subsidiaries, or locations..."
+          />
         </div>
 
-        <div className="doc-filters-row">
-          <div className="doc-search-box">
-            <SearchIcon />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search mines, coalfields, subsidiaries, or locations..."
-            />
-          </div>
-
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, justifyContent: 'flex-start' }}>
           <select
             value={selectedSub}
             onChange={(e) => setSelectedSub(e.target.value)}
@@ -201,6 +285,21 @@ export default function MiningMapPage() {
               <option key={opt} value={opt}>{opt}</option>
             ))}
           </select>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto' }}>
+          <button
+            type="button"
+            className="doc-upload-button-primary"
+            style={{ height: '38px', padding: '0 18px' }}
+            onClick={() => {
+              setToast(`Filters applied (${filteredAssets.length} asset records found)`)
+              window.setTimeout(() => setToast(''), 2200)
+            }}
+          >
+            <span>Apply Filters</span>
+            <span aria-hidden="true">&rarr;</span>
+          </button>
 
           <button
             type="button"
