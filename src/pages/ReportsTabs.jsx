@@ -2,8 +2,8 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Tabs from '../components/ui/Tabs'
 
 const TABS = [
-  { id: 'builder', label: 'Report Builder', path: '/reports' },
   { id: 'parliamentary', label: 'Parliamentary Workflow', path: '/reports/parliamentary' },
+  { id: 'builder', label: 'Report Builder', path: '/reports' },
 ]
 
 export default function ReportsTabs() {

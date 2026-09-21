@@ -1,6 +1,6 @@
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps'
 
-const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
+const geoUrl = 'https://raw.githubusercontent.com/geohacker/india/master/state/india_state.geojson'
 
 const states = [
   { name: 'Odisha', x: 290, y: 230 },
@@ -9,22 +9,32 @@ const states = [
   { name: 'West Bengal', x: 300, y: 210 },
 ]
 
+function getStateName(geo) {
+  return (
+    geo?.properties?.name ||
+    geo?.properties?.NAME_1 ||
+    geo?.properties?.st_nm ||
+    geo?.properties?.state ||
+    geo?.properties?.State ||
+    geo?.properties?.NAME ||
+    ''
+  )
+}
+
 export default function IndiaMap({ layerColor, onSelectState, selectedState }) {
   return (
     <div className="india-map-shell">
-      <ComposableMap projection="geoMercator" projectionConfig={{ scale: 520, center: [82, 23] }}>
+      <ComposableMap projection="geoMercator" projectionConfig={{ scale: 620, center: [84, 23] }}>
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map((geo) => {
-              const name = geo.properties.name
+              const name = getStateName(geo)
               const isState = states.some((state) => state.name === name)
               const isSelected = selectedState === name
 
               if (!isState) {
                 return null
               }
-
-              const target = states.find((state) => state.name === name)
 
               return (
                 <Geography
@@ -33,18 +43,18 @@ export default function IndiaMap({ layerColor, onSelectState, selectedState }) {
                   onClick={() => onSelectState(name)}
                   style={{
                     default: {
-                      fill: isSelected ? '#1a3768' : layerColor,
-                      stroke: '#ffffff',
+                      fill: isSelected ? 'var(--navy-900)' : layerColor,
+                      stroke: 'var(--surface)',
                       strokeWidth: 0.8,
                       outline: 'none',
                       cursor: 'pointer',
                     },
                     hover: {
-                      fill: '#3aa9c8',
+                      fill: 'var(--steel-600)',
                       outline: 'none',
                     },
                     pressed: {
-                      fill: '#1a3768',
+                      fill: 'var(--navy-900)',
                       outline: 'none',
                     },
                   }}

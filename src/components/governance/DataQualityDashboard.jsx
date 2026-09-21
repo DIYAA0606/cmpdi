@@ -67,7 +67,12 @@ export default function DataQualityDashboard({ metrics }) {
             <div>
               <div style={{ fontSize: '26px', fontWeight: 800, color: 'var(--navy-900)' }}>{metrics.extractionAccuracy}%</div>
               <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontWeight: 600 }}>System Data Trust Index</div>
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--green-600)', marginTop: '4px', fontWeight: 600 }}>✓ Verified against CIL standards</div>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--green-600)', marginTop: '4px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ width: '14px', height: '14px' }}>
+                  <path d="M4 10.4 7.7 14l8.3-9.2" />
+                </svg>
+                Verified against CIL standards
+              </div>
             </div>
           </div>
         </div>

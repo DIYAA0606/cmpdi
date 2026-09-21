@@ -24,6 +24,14 @@ export default function AppShell() {
     setIsDesktopCollapsed((state) => !state)
   }
 
+  if (location.pathname.startsWith('/dashboard')) {
+    return (
+      <div className="dashboard-shell">
+        <Outlet />
+      </div>
+    )
+  }
+
   return (
     <div className={`app-shell ${isDesktopCollapsed ? 'is-desktop-collapsed' : ''}`}>
       <div

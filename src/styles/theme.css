@@ -29,6 +29,7 @@
   --red-100: #fef2f2;        /* Critical Soft Background */
 
   /* Off-white Content Canvas & Neutral Surfaces (Warm Cream Canvas) */
+  --white: #ffffff;           /* Pure white for institutional contrast */
   --page-bg: #f6f4f0;        /* Warm Cream Base Canvas */
   --surface: #ffffff;        /* Warm White Card Surface */
   --surface-strong: #efece6; /* Subtle Warm Neutral Surface */

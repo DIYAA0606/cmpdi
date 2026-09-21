@@ -13,11 +13,11 @@ const layers = [
 ]
 
 const palette = {
-  Production: '#1b3a57',
-  Dispatch: '#2b4c7e',
-  'Exploration Activity': '#5c7cfa',
-  Reserves: '#0b7285',
-  'Data Quality': '#1b7a43',
+  Production: 'var(--navy-900)',
+  Dispatch: 'var(--navy-700)',
+  'Exploration Activity': 'var(--purple-500)',
+  Reserves: 'var(--cyan-600)',
+  'Data Quality': 'var(--green-600)',
 }
 
 export default function MiningMapPage({ hideHeader = false }) {

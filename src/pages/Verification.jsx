@@ -75,7 +75,7 @@ export default function VerificationPage({ hideHeader = false }) {
       ...current,
     ].slice(0, 8))
 
-    setToastMessage(`✓ Conflict resolved (${resolvedStatus}) — System Data Quality updated`)
+    setToastMessage(`Conflict resolved (${resolvedStatus}) — System Data Quality updated`)
     window.setTimeout(() => setToastMessage(''), 3000)
   }
 
@@ -91,22 +91,11 @@ export default function VerificationPage({ hideHeader = false }) {
       )}
 
       {toastMessage && (
-        <div
-          style={{
-            background: 'var(--green-100)',
-            border: '1px solid var(--tone-positive-border)',
-            color: 'var(--green-600)',
-            padding: '12px 18px',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: '13px',
-            fontWeight: 700,
-            marginBottom: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          {toastMessage}
+        <div className="report-toast report-toast--success">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M4 10.4 7.7 14l8.3-9.2" />
+          </svg>
+          <span>{toastMessage}</span>
         </div>
       )}
 

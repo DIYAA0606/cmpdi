@@ -1,41 +1,91 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import Tabs from '../components/ui/Tabs'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 
-const TABS = [
-  { id: 'overview', label: 'Executive Overview', path: '/dashboard' },
-  { id: 'forecast', label: 'Production Forecast', path: '/dashboard/forecast' },
+const NAV_ITEMS = [
+  { label: 'Dashboard', path: '/dashboard' },
+  { label: 'Documents', path: '/documents' },
+  { label: 'AI Intelligence', path: '/ai-intelligence' },
+  { label: 'Reports', path: '/reports' },
+  { label: 'Mining Map', path: '/mining-map' },
 ]
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M13 5l7 7-7 7" />
+    </svg>
+  )
+}
 
 export default function DashboardTabs() {
   const location = useLocation()
-  const navigate = useNavigate()
-
   const isForecast = location.pathname.startsWith('/dashboard/forecast')
-  const currentTab = isForecast ? 'Production Forecast' : 'Executive Overview'
-
-  const handleTabChange = (label) => {
-    const target = TABS.find((t) => t.label === label)
-    if (target && target.path !== location.pathname) {
-      navigate(target.path)
-    }
-  }
 
   return (
-    <div className="tabbed-page-container">
-      <div className="page-header">
-        <div>
-          <p className="eyebrow">Executive Operations</p>
-          <h1>CMPDI / CIL Mining Operations</h1>
+    <>
+      <div className="dashboard-topbar-utility">
+        <div className="dashboard-shell-inner dashboard-topbar-utility__inner">
+          <div className="dashboard-topbar-meta">
+            <span>Coal India Limited</span>
+            <span>CMPDI / Central Mine Planning &amp; Design Institute</span>
+          </div>
+          <div className="dashboard-topbar-links">
+            <a href="#platform">Platform</a>
+            <a href="#capabilities">Capabilities</a>
+            <a href="#operations">Operations</a>
+          </div>
         </div>
       </div>
-      <Tabs
-        tabs={TABS.map((t) => t.label)}
-        value={currentTab}
-        onChange={handleTabChange}
-      />
-      <div className="tab-content">
+
+      <header className="dashboard-site-header">
+        <div className="dashboard-shell-inner dashboard-site-header__inner">
+          <div className="dashboard-brand" aria-label="CMPDI Mining Intelligence Platform">
+            <div className="dashboard-logo-mark">CMPDI</div>
+            <div className="dashboard-brand-text">
+              <span className="dashboard-brand-title">Mining Intelligence Platform</span>
+              <span className="dashboard-brand-subtitle">Coal India Limited</span>
+            </div>
+          </div>
+
+          <nav className="dashboard-nav" aria-label="Main dashboard navigation">
+            {NAV_ITEMS.map(({ label, path }) => (
+              <NavLink
+                key={path}
+                to={path}
+                className={({ isActive }) => {
+                  const dashboardActive = path === '/dashboard' && location.pathname.startsWith('/dashboard')
+                  return `dashboard-nav__link ${isActive || dashboardActive ? 'is-active' : ''}`
+                }}
+              >
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <Link to="/dashboard" className="dashboard-header-cta">
+            <span>Open Dashboard</span>
+            <ArrowIcon />
+          </Link>
+        </div>
+      </header>
+
+      <div className="dashboard-shell-inner dashboard-tab-strip" aria-label="Dashboard views">
+        <Link
+          to="/dashboard"
+          className={`dashboard-tab ${location.pathname === '/dashboard' ? 'is-selected' : ''}`}
+        >
+          Executive Overview
+        </Link>
+        <Link
+          to="/dashboard/forecast"
+          className={`dashboard-tab ${isForecast ? 'is-selected' : ''}`}
+        >
+          Production Forecast
+        </Link>
+      </div>
+
+      <div className="dashboard-tab-content">
         <Outlet />
       </div>
-    </div>
+    </>
   )
 }

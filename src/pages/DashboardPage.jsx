@@ -1,253 +1,161 @@
 import React from 'react'
-import Card from '../components/ui/Card'
-import StatCard from '../components/ui/StatCard'
-import DataTable from '../components/ui/DataTable'
-import Badge from '../components/ui/Badge'
-import PipelineStrip from '../components/dashboard/PipelineStrip'
 import TrendChart from '../components/dashboard/TrendChart'
-import ActivityFeed from '../components/dashboard/ActivityFeed'
-import { activityFeed, dashboardSummary } from '../data/dashboardMock'
-import { useAuth } from '../context/AuthContext'
-
-const tableColumns = [
-  { key: 'name', label: 'Subsidiary' },
-  { key: 'documents', label: 'Documents' },
-  { key: 'automation', label: 'Automation' },
-  { key: 'conflicts', label: 'Conflicts' },
-  { key: 'verification', label: 'Pending Verification' },
-  { key: 'status', label: 'Status' },
-]
+import { dashboardSummary } from '../data/dashboardMock'
 
 const formatNumber = (value) => new Intl.NumberFormat('en-IN').format(value)
 
-export default function DashboardPage({ hideHeader = false }) {
-  const summary = dashboardSummary
-  const { user, role } = useAuth()
-  const activeRole = role || 'Analyst'
+const reviewRows = [
+  { item: 'Environmental Compliance Report', type: 'Compliance', subsidiary: 'MCL', date: '21 Sep 2026', status: 'Under Review', action: 'Review' },
+  { item: 'Parliamentary Question Response', type: 'Parliamentary', subsidiary: 'SECL', date: '20 Sep 2026', status: 'Pending', action: 'Take Action' },
+  { item: 'Production Data Discrepancy', type: 'Production', subsidiary: 'WCL', date: '19 Sep 2026', status: 'Needs Verification', action: 'Verify' },
+]
 
-  // Define role-based banner text and emphasis theme
-  const roleInfo = {
-    Analyst: {
-      title: 'Analyst Workspace View',
-      desc: 'Surfacing document processing volume, OCR ingestion status, and AI research query metrics.',
-      badgeTone: 'info',
-    },
-    Reviewer: {
-      title: 'Reviewer Workspace View',
-      desc: 'Surfacing open conflict flags, pending verification queue, and multi-subsidiary data quality status.',
-      badgeTone: 'caution',
-    },
-    Admin: {
-      title: 'Admin Workspace View',
-      desc: 'Surfacing system-wide activity, audit log operations, and subsidiary governance performance.',
-      badgeTone: 'critical',
-    },
-  }[activeRole] || {
-    title: 'Executive Operations Briefing',
-    desc: 'Unified decision support across all Coal India operating subsidiaries.',
-    badgeTone: 'neutral',
-  }
+export default function DashboardPage() {
+  const summary = dashboardSummary
+  const processedValue = 112430
+  const processedShare = 75.7
 
   return (
     <div className="dashboard-page">
-      {!hideHeader && (
-        <div className="page-header">
-          <div>
-            <p className="eyebrow">Overview</p>
-            <h1>CMPDI / CIL Mining Intelligence</h1>
+      <section className="dashboard-hero" id="operations">
+        <div className="dashboard-hero__copy">
+          <p className="dashboard-kicker">Executive operations</p>
+          <h1>Mining Operations Overview</h1>
+          <p className="dashboard-hero__description">
+            Real-time view of document processing, production insights, compliance status, and operational intelligence across CIL subsidiaries.
+          </p>
+        </div>
+
+        <div className="dashboard-status-panel">
+          <div className="dashboard-panel-header dashboard-panel-header--status">
+            <span className="dashboard-panel-label">System status</span>
+            <span className="dashboard-online"><span className="dashboard-online__dot" />All systems operational</span>
+          </div>
+
+          <div className="dashboard-status-grid">
+            <div className="dashboard-metric-card">
+              <strong>{formatNumber(summary.documentsProcessed)}</strong>
+              <span>Documents processed</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <strong>{summary.automationRate}%</strong>
+              <span>Automation rate</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <strong>{summary.pendingVerifications}</strong>
+              <span>Pending reviews</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <strong>{summary.subsidiaries.length}</strong>
+              <span>Subsidiaries active</span>
+            </div>
+          </div>
+
+          <div className="dashboard-status-checklist">
+            <span>Document pipelines active</span>
+            <span>AI analysis operational</span>
+            <span>Verification workflows running</span>
+            <span>Reports up to date</span>
           </div>
         </div>
-      )}
+      </section>
 
-      {/* Role Emphasis Banner */}
-      <Card style={{ padding: '14px 20px', marginBottom: '20px', background: 'var(--surface-strong)', borderLeft: '4px solid var(--steel-700)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <section className="dashboard-analytics" id="platform">
+        <article className="dashboard-panel dashboard-panel--wide">
+          <div className="dashboard-panel-header dashboard-panel-header--split">
+            <div>
+              <p className="dashboard-kicker">Production trends</p>
+              <h2>Monthly Coal Production</h2>
+            </div>
+            <button type="button" className="dashboard-filter-button">Last 6 Months</button>
+          </div>
+          <TrendChart data={summary.trend} />
+        </article>
+
+        <article className="dashboard-panel" id="capabilities">
+          <div className="dashboard-panel-header dashboard-panel-header--split">
+            <div>
+              <p className="dashboard-kicker">Document processing</p>
+              <h2>Document Ingestion Status</h2>
+            </div>
+            <button type="button" className="dashboard-filter-button">All Document Types</button>
+          </div>
+
+          <div className="dashboard-donut-wrap">
+            <div className="dashboard-donut" aria-label="Documents processed breakdown">
+              <div className="dashboard-donut__inner">
+                <strong>{formatNumber(summary.documentsProcessed)}</strong>
+                <span>Total</span>
+              </div>
+            </div>
+
+            <ul className="dashboard-donut-legend">
+              <li>
+                <span className="dashboard-legend-dot dashboard-legend-dot--processed" />
+                <span className="dashboard-legend-label">Processed</span>
+                <strong>{formatNumber(processedValue)}</strong>
+                <em>{processedShare}%</em>
+              </li>
+              <li>
+                <span className="dashboard-legend-dot dashboard-legend-dot--review" />
+                <span className="dashboard-legend-label">In Review</span>
+                <strong>{formatNumber(21400)}</strong>
+                <em>14.4%</em>
+              </li>
+              <li>
+                <span className="dashboard-legend-dot dashboard-legend-dot--pending" />
+                <span className="dashboard-legend-label">Pending</span>
+                <strong>{formatNumber(9860)}</strong>
+                <em>6.6%</em>
+              </li>
+              <li>
+                <span className="dashboard-legend-dot dashboard-legend-dot--failed" />
+                <span className="dashboard-legend-label">Failed</span>
+                <strong>{formatNumber(4900)}</strong>
+                <em>3.3%</em>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section className="dashboard-panel dashboard-panel--table">
+        <div className="dashboard-panel-header dashboard-panel-header--split">
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--navy-900)' }}>{roleInfo.title}</span>
-              <Badge tone={roleInfo.badgeTone}>{activeRole} View</Badge>
-            </div>
-            <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-              {roleInfo.desc} Logged in as <strong>{user?.name || 'Rahul Sharma'}</strong> ({user?.subsidiary || 'CCL'}).
-            </div>
+            <p className="dashboard-kicker">Requires attention</p>
+            <h2>Pending Reviews &amp; Actions</h2>
           </div>
+          <button type="button" className="dashboard-filter-button">View all</button>
         </div>
-      </Card>
+        <p className="dashboard-panel-subtitle">Items requiring review, verification, or further action.</p>
 
-      {/* KPI Stat Cards — Emphasize based on role */}
-      <div className="dashboard-kpis">
-        <StatCard
-          label="Documents processed"
-          value={formatNumber(summary.documentsProcessed)}
-          change="+18.2% vs last month"
-          tone={activeRole === 'Analyst' ? 'purple' : 'success'}
-          trend="up"
-          icon="documents"
-        />
-        <StatCard
-          label="Automation rate"
-          value={`${summary.automationRate}%`}
-          change="+4.8 pts"
-          tone="purple"
-          trend="up"
-          icon="gauge"
-        />
-        <StatCard
-          label="Conflicts detected"
-          value={summary.conflictsDetected}
-          change="12 critical"
-          tone={activeRole === 'Reviewer' ? 'danger' : 'warning'}
-          trend="up"
-          icon="alert"
-        />
-        <StatCard
-          label="Pending verifications"
-          value={summary.pendingVerifications}
-          change="29 require escalation"
-          tone={activeRole === 'Reviewer' ? 'danger' : 'caution'}
-          trend="down"
-          icon="check"
-        />
-        <StatCard
-          label="Avg. processing time"
-          value={`${summary.avgProcessingTimeHours} hrs`}
-          change="-1.2 hrs"
-          tone="cyan"
-          trend="down"
-          icon="clock"
-        />
-      </div>
-
-      {/* Role-based widget order rendering */}
-      {activeRole === 'Reviewer' ? (
-        <>
-          {/* Reviewer layout: Subsidiary Conflicts & Verification Queue surfaced first */}
-          <Card className="dashboard-section" style={{ borderLeft: '3px solid var(--amber-500)' }}>
-            <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2>Subsidiary Conflict & Verification Queue (Reviewer Focus)</h2>
-              <Badge tone="caution">Priority Queue</Badge>
-            </div>
-            <DataTable
-              columns={tableColumns}
-              rows={summary.subsidiaries.map((item) => ({
-                ...item,
-                documents: formatNumber(item.documents),
-                automation: `${item.automation}%`,
-                conflicts: item.conflicts,
-                verification: item.verification,
-              }))}
-            />
-          </Card>
-
-          <div className="dashboard-grid">
-            <Card className="dashboard-section dashboard-section--wide">
-              <div className="section-header">
-                <h2>Documents processed over time</h2>
-              </div>
-              <TrendChart data={summary.trend} />
-            </Card>
-
-            <Card className="dashboard-section">
-              <div className="section-header">
-                <h2>Recent activity & audit events</h2>
-              </div>
-              <ActivityFeed items={activityFeed} />
-            </Card>
-          </div>
-
-          <Card className="dashboard-section">
-            <div className="section-header">
-              <h2>Intelligence flow</h2>
-            </div>
-            <PipelineStrip />
-          </Card>
-        </>
-      ) : activeRole === 'Admin' ? (
-        <>
-          {/* Admin layout: Recent Activity Feed & System Pipeline surfaced first */}
-          <div className="dashboard-grid">
-            <Card className="dashboard-section dashboard-section--wide">
-              <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>System Activity & Operational Feed (Admin Focus)</h2>
-                <Badge tone="critical">System Audit</Badge>
-              </div>
-              <ActivityFeed items={activityFeed} />
-            </Card>
-
-            <Card className="dashboard-section">
-              <div className="section-header">
-                <h2>Documents processed over time</h2>
-              </div>
-              <TrendChart data={summary.trend} />
-            </Card>
-          </div>
-
-          <Card className="dashboard-section">
-            <div className="section-header">
-              <h2>Intelligence flow</h2>
-            </div>
-            <PipelineStrip />
-          </Card>
-
-          <Card className="dashboard-section">
-            <div className="section-header">
-              <h2>Subsidiary performance</h2>
-            </div>
-            <DataTable
-              columns={tableColumns}
-              rows={summary.subsidiaries.map((item) => ({
-                ...item,
-                documents: formatNumber(item.documents),
-                automation: `${item.automation}%`,
-                conflicts: item.conflicts,
-                verification: item.verification,
-              }))}
-            />
-          </Card>
-        </>
-      ) : (
-        <>
-          {/* Analyst default layout: Document volume, pipeline & trend surfaced first */}
-          <Card className="dashboard-section">
-            <div className="section-header">
-              <h2>Intelligence flow</h2>
-            </div>
-            <PipelineStrip />
-          </Card>
-
-          <div className="dashboard-grid">
-            <Card className="dashboard-section dashboard-section--wide">
-              <div className="section-header">
-                <h2>Documents processed over time</h2>
-              </div>
-              <TrendChart data={summary.trend} />
-            </Card>
-
-            <Card className="dashboard-section">
-              <div className="section-header">
-                <h2>Recent activity</h2>
-              </div>
-              <ActivityFeed items={activityFeed} />
-            </Card>
-          </div>
-
-          <Card className="dashboard-section">
-            <div className="section-header">
-              <h2>Subsidiary performance</h2>
-            </div>
-            <DataTable
-              columns={tableColumns}
-              rows={summary.subsidiaries.map((item) => ({
-                ...item,
-                documents: formatNumber(item.documents),
-                automation: `${item.automation}%`,
-                conflicts: item.conflicts,
-                verification: item.verification,
-              }))}
-            />
-          </Card>
-        </>
-      )}
+        <div className="dashboard-table-wrap">
+          <table className="dashboard-review-table">
+            <thead>
+              <tr>
+                <th>Document / Item</th>
+                <th>Type</th>
+                <th>Subsidiary</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reviewRows.map((row) => (
+                <tr key={row.item}>
+                  <td>{row.item}</td>
+                  <td>{row.type}</td>
+                  <td>{row.subsidiary}</td>
+                  <td>{row.date}</td>
+                  <td><span className={`dashboard-status-badge dashboard-status-badge--${row.status.toLowerCase().replace(/\s+/g, '-')}`}>{row.status}</span></td>
+                  <td className="dashboard-action-cell">{row.action} →</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   )
 }

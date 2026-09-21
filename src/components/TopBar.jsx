@@ -6,6 +6,24 @@ import { reportsMock } from '../data/reportsMock'
 import { mockNotifications } from '../data/mockNotifications'
 import { mockPastQueries } from '../data/mockPastQueries'
 
+function SearchIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="8.5" cy="8.5" r="5.2" />
+      <path d="M13 13l4 4" />
+    </svg>
+  )
+}
+
+function BellIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M10 3.2a3.5 3.5 0 0 1 3.5 3.5v2.3c0 1.8.7 2.9 1.7 3.7l.8.7H3.9l.8-.7c1-.8 1.7-1.9 1.7-3.7V6.7A3.5 3.5 0 0 1 10 3.2Z" />
+      <path d="M8.2 14.8A2 2 0 0 0 10 16a2 2 0 0 0 1.8-1.2" />
+    </svg>
+  )
+}
+
 export default function TopBar({ onMenuToggle }) {
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -97,7 +115,7 @@ export default function TopBar({ onMenuToggle }) {
 
       <div className="topbar__search-wrap">
         <div className="topbar__search">
-          <span aria-hidden="true">⌕</span>
+          <span aria-hidden="true" className="topbar__search-icon"><SearchIcon /></span>
           <input
             type="search"
             value={query}
@@ -143,7 +161,7 @@ export default function TopBar({ onMenuToggle }) {
       <div className="topbar__actions">
         <div className="topbar__notification-wrap">
           <button type="button" className="topbar__icon" aria-label="Notifications" onClick={() => setNotificationsOpen((state) => !state)}>
-            🔔
+            <BellIcon />
             {unreadCount > 0 && <span className="topbar__badge">{unreadCount}</span>}
           </button>
 

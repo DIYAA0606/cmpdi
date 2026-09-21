@@ -9,6 +9,116 @@ const EXAMPLE_PROMPTS = [
   'What is the environmental compliance status for MCL coalfields?',
 ]
 
+const CORE_FEATURES = [
+  {
+    title: 'Document Intelligence',
+    description: 'Converts mine reports, safety logs, and compliance records into structured, searchable operational evidence.',
+    route: '/documents',
+    icon: 'document',
+  },
+  {
+    title: 'AI Intelligence',
+    description: 'Cross-validates production, risk, and governance signals with traceable evidence and assisted query workflows.',
+    route: '/ai-intelligence',
+    icon: 'ai',
+  },
+  {
+    title: 'Mining Operations',
+    description: 'Tracks field-level performance, production patterns, and operational status across subsidiaries and coalfields.',
+    route: '/mining-map',
+    icon: 'map',
+  },
+]
+
+const INSTITUTIONAL_MODULES = [
+  { label: 'Documents', route: '/documents', icon: 'document' },
+  { label: 'AI Intelligence', route: '/ai-intelligence', icon: 'ai' },
+  { label: 'Parliamentary Responses', route: '/reports/parliamentary', icon: 'briefcase' },
+  { label: 'Mining Map', route: '/mining-map', icon: 'map' },
+  { label: 'Verification', route: '/data-quality', icon: 'shield' },
+  { label: 'Reports', route: '/reports', icon: 'chart' },
+]
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M4 10.5 7.8 14l8.2-9.2" />
+    </svg>
+  )
+}
+
+function DocumentIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M7 3.5h7l5 5V19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z" />
+      <path d="M14 3.5v5h5" />
+      <path d="M8.5 12h7M8.5 15.5h7" />
+    </svg>
+  )
+}
+
+function AIIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" />
+      <path d="M9.5 12h5M12 9.5v5M4 6.5V4.7A1.7 1.7 0 0 1 5.7 3h2.8M20 17.5v1.8a1.7 1.7 0 0 1-1.7 1.7h-2.8M20 6.5V4.7A1.7 1.7 0 0 0 18.3 3h-2.8M4 17.5v1.8A1.7 1.7 0 0 0 5.7 21h2.8" />
+    </svg>
+  )
+}
+
+function MapIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 4.5 3.5 6.3v13.2L9 16l6 3.5 5.5-1.8V4.5L15 6.3 9 4.5Z" />
+      <path d="M9 4.5v11.5M15 6.3v11.5" />
+    </svg>
+  )
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 3.2 18.5 5.8v5.4c0 4.2-2.6 7.8-6.5 9.6-3.9-1.8-6.5-5.4-6.5-9.6V5.8L12 3.2Z" />
+      <path d="m9.5 12.1 1.6 1.6 3.4-3.7" />
+    </svg>
+  )
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3.8 9.2A2 2 0 0 1 5.8 7.2h12.4a2 2 0 0 1 2 2v8.6a2 2 0 0 1-2 2H5.8a2 2 0 0 1-2-2V9.2Z" />
+      <path d="M9 7.2V5.8A2 2 0 0 1 11 3.8h2a2 2 0 0 1 2 2v1.4M3.8 12.7h16.4" />
+    </svg>
+  )
+}
+
+function ChartIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M4 18.5h16" />
+      <path d="M7 15V9.5M12 15V6.5M17 15v-4" />
+    </svg>
+  )
+}
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M13 5l7 7-7 7" />
+    </svg>
+  )
+}
+
+const iconMap = {
+  document: DocumentIcon,
+  ai: AIIcon,
+  map: MapIcon,
+  shield: ShieldIcon,
+  briefcase: BriefcaseIcon,
+  chart: ChartIcon,
+}
+
 export default function LandingPage() {
   const navigate = useNavigate()
   const [queryInput, setQueryInput] = useState('')
@@ -27,243 +137,246 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page">
-      {/* 1. Header Navbar */}
-      <header className="landing-header">
-        <div className="landing-brand">
-          <div className="landing-logo-mark">CIL</div>
-          <div className="landing-brand-text">
-            <span className="landing-brand-title">Mining Intelligence Platform</span>
-            <span className="landing-brand-subtitle">CMPDI • Coal India Limited</span>
+      <div className="landing-utility-bar">
+        <div className="landing-shell landing-utility-bar__inner">
+          <div className="landing-utility-meta">
+            <span>Coal India Limited</span>
+            <span>CMPDI / Central Mine Planning & Design Institute</span>
+          </div>
+          <div className="landing-utility-links">
+            <a href="#platform">Platform</a>
+            <a href="#capabilities">Capabilities</a>
+            <a href="#insight">Operations</a>
           </div>
         </div>
+      </div>
 
-        <nav className="landing-nav-actions">
-          <Link to="/dashboard" className="landing-btn-nav">
-            <span>Enter Dashboard</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </nav>
-      </header>
-
-      {/* 2. Hero Section */}
-      <section className="landing-hero">
-        <div className="landing-hero-overlay" />
-        <div className="landing-hero-content">
-          <div className="landing-hero-badge">
-            <span className="landing-hero-badge-dot" />
-            Enterprise Decision Support System
+      <header className="landing-header">
+        <div className="landing-shell landing-header__inner">
+          <div className="landing-brand" aria-label="CMPDI Mining Intelligence Platform">
+            <div className="landing-logo-mark">CMPDI</div>
+            <div className="landing-brand-text">
+              <span className="landing-brand-title">Mining Intelligence Platform</span>
+              <span className="landing-brand-subtitle">Coal India Limited</span>
+            </div>
           </div>
 
-          <h1 className="landing-hero-title">
-            CMPDI / Coal India Limited <br />
-            <span className="landing-hero-title-highlight">Trustworthy Data for Coal Mining Oversight</span>
-          </h1>
+          <nav className="landing-header-nav" aria-label="Main navigation">
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/documents">Documents</Link>
+            <Link to="/ai-intelligence">AI Intelligence</Link>
+            <Link to="/reports">Reports</Link>
+            <Link to="/mining-map">Mining Map</Link>
+          </nav>
 
-          <p className="landing-hero-subtitle">
-            Streamlined document intelligence, automated conflict verification, and spatial reporting 
-            for Coal India Limited.
-          </p>
-
-          <Link to="/dashboard" className="landing-btn-hero-primary">
-            <span>Enter Dashboard</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+          <Link to="/dashboard" className="landing-header-cta">
+            <span>Open Dashboard</span>
+            <ArrowIcon />
           </Link>
+        </div>
+      </header>
 
-          {/* Interactive AI Query Hook Input */}
-          <div className="landing-query-hook">
-            <div className="landing-query-hook-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <span>Test AI Copilot Query (Direct Demo Hook)</span>
+      <main className="landing-main">
+        <section className="landing-hero">
+          <div className="landing-shell landing-hero__inner">
+            <div className="landing-hero-copy">
+              <p className="landing-kicker">CMPDI / Coal India</p>
+              <h1>Mining Intelligence Operations</h1>
+              <p className="landing-hero-subtitle">
+                AI-assisted document processing, evidence-driven analysis, and operational oversight for coalfield governance and mine intelligence.
+              </p>
+
+              <div className="landing-hero-actions">
+                <Link to="/dashboard" className="landing-primary-button">
+                  <span>Enter Platform</span>
+                  <ArrowIcon />
+                </Link>
+                <a href="#platform" className="landing-secondary-button">
+                  Explore capabilities
+                </a>
+              </div>
+
+              <div className="landing-hero-trust" id="insight">
+                <span>Document intelligence</span>
+                <span>Evidence traceability</span>
+                <span>Institutional oversight</span>
+              </div>
             </div>
 
-            <form onSubmit={handleQuerySubmit} className="landing-query-input-wrap">
+            <div className="landing-hero-panel" aria-label="Operations overview panel">
+              <div className="landing-hero-panel__top">
+                <span className="landing-panel-tag">Operations overview</span>
+                <span className="landing-panel-status">
+                  <span className="landing-panel-status__dot" />
+                  Live monitoring
+                </span>
+              </div>
+
+              <div className="landing-panel-metrics">
+                <div>
+                  <strong>{formattedDocs}</strong>
+                  <span>Ingested documents</span>
+                </div>
+                <div>
+                  <strong>{dashboardSummary.automationRate}%</strong>
+                  <span>Automation rate</span>
+                </div>
+                <div>
+                  <strong>{dashboardSummary.pendingVerifications}</strong>
+                  <span>Pending reviews</span>
+                </div>
+              </div>
+
+              <ul className="landing-panel-list">
+                <li>
+                  <span className="landing-list-check"><CheckIcon /></span>
+                  Subsidiary performance monitoring is active across mining operations.
+                </li>
+                <li>
+                  <span className="landing-list-check"><CheckIcon /></span>
+                  Evidence-backed review and verification workflows remain in progress.
+                </li>
+                <li>
+                  <span className="landing-list-check"><CheckIcon /></span>
+                  Production, governance, and compliance reporting are aligned to source records.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="platform" className="landing-feature-section landing-shell">
+          <div className="landing-section-heading">
+            <p className="landing-kicker">Operational platform</p>
+            <h2>Institutional intelligence across the coal value chain</h2>
+          </div>
+
+          <div className="landing-feature-grid">
+            {CORE_FEATURES.map(({ title, description, route, icon }) => {
+              const Icon = iconMap[icon]
+
+              return (
+                <Link key={title} to={route} className="landing-feature-card">
+                  <div className="landing-feature-card__icon">
+                    <Icon />
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                  <span className="landing-feature-card__link">
+                    Access module
+                    <ArrowIcon />
+                  </span>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+
+        <section id="capabilities" className="landing-dark-band">
+          <div className="landing-shell">
+            <div className="landing-section-heading landing-section-heading--light">
+              <p className="landing-kicker landing-kicker--light">Major capabilities</p>
+              <h2>Operational oversight across the full institutional workflow</h2>
+            </div>
+
+            <div className="landing-module-grid">
+              {INSTITUTIONAL_MODULES.map(({ label, route, icon }) => {
+                const Icon = iconMap[icon]
+
+                return (
+                  <Link key={label} to={route} className="landing-module-item">
+                    <div className="landing-module-item__icon">
+                      <Icon />
+                    </div>
+                    <span>{label}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="landing-snapshot-section landing-shell">
+          <div className="landing-section-heading landing-section-heading--left">
+            <p className="landing-kicker">System snapshot</p>
+            <h2>Evidence-led review with accountable operational controls</h2>
+          </div>
+
+          <div className="landing-snapshot-grid">
+            <div className="landing-snapshot-card">
+              <div className="landing-snapshot-label">Operational status</div>
+              <div className="landing-snapshot-value">Stable</div>
+              <ul className="landing-snapshot-list">
+                <li><span className="landing-list-check"><CheckIcon /></span> Subsidiary monitoring remains current and aligned to source records.</li>
+                <li><span className="landing-list-check"><CheckIcon /></span> Production reporting is active across each operational unit.</li>
+              </ul>
+            </div>
+
+            <div className="landing-snapshot-card">
+              <div className="landing-snapshot-label">Priority review</div>
+              <div className="landing-snapshot-value">{dashboardSummary.pendingVerifications}</div>
+              <ul className="landing-snapshot-list">
+                <li><span className="landing-list-check"><CheckIcon /></span> Human verification queues are assigned and tracked.</li>
+                <li><span className="landing-list-check"><CheckIcon /></span> Conflict resolution remains within review cycle thresholds.</li>
+              </ul>
+            </div>
+
+            <div className="landing-snapshot-card">
+              <div className="landing-snapshot-label">Current focus</div>
+              <div className="landing-snapshot-value">Production intelligence</div>
+              <ul className="landing-snapshot-list">
+                <li><span className="landing-list-check"><CheckIcon /></span> CCL, WCL, SECL, and MCL operational indicators are active.</li>
+                <li><span className="landing-list-check"><CheckIcon /></span> Governance and compliance reporting continue to be evidence-linked.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="landing-query-section landing-shell">
+          <div className="landing-query-panel">
+            <div className="landing-query-copy">
+              <p className="landing-kicker">AI assistance</p>
+              <h2>Ask the platform for immediate operational insight.</h2>
+            </div>
+
+            <form onSubmit={handleQuerySubmit} className="landing-query-form">
               <input
                 type="text"
-                className="landing-query-input"
                 value={queryInput}
                 onChange={(e) => setQueryInput(e.target.value)}
-                placeholder="e.g. Compare CCL and WCL production output for FY 2025-26..."
+                placeholder="Ask about production, compliance, safety, or verification status..."
+                aria-label="Ask the platform a question"
               />
-              <button type="submit" className="landing-btn-query">
-                Ask AI Copilot →
+              <button type="submit" className="landing-primary-button">
+                <span>Ask AI</span>
+                <ArrowIcon />
               </button>
             </form>
 
             <div className="landing-prompt-pills">
-              <span className="landing-prompt-label">Example queries:</span>
-              {EXAMPLE_PROMPTS.map((promptText, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  className="landing-prompt-pill"
-                  onClick={() => handlePillClick(promptText)}
-                >
+              {EXAMPLE_PROMPTS.map((promptText) => (
+                <button key={promptText} type="button" className="landing-prompt-pill" onClick={() => handlePillClick(promptText)}>
                   {promptText}
                 </button>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 3. Stat Highlight Strip (3 Restrained Numbers) */}
-      <section className="landing-stats-strip">
-        <div className="landing-stats-container">
-          <div className="landing-stat-item">
-            <div className="landing-stat-value">{formattedDocs}</div>
-            <div className="landing-stat-label">Ingested Documents</div>
-            <div className="landing-stat-desc">Mine safety logs, production registers & survey files</div>
-          </div>
+      </main>
 
-          <div className="landing-stat-item">
-            <div className="landing-stat-value">96.4%</div>
-            <div className="landing-stat-label">Extraction Accuracy</div>
-            <div className="landing-stat-desc">5-level page, section & coordinate bounding box proof</div>
-          </div>
-
-          <div className="landing-stat-item">
-            <div className="landing-stat-value">{dashboardSummary.automationRate}%</div>
-            <div className="landing-stat-label">Automation Rate</div>
-            <div className="landing-stat-desc">Automated OCR and conflict flag detection</div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Core Capability Highlights */}
-      <section className="landing-section">
-        <div className="landing-section-header">
-          <h2 className="landing-section-title">Core Platform Capabilities</h2>
-          <div className="landing-section-subtitle">
-            Institutional tools built for operational oversight, regulatory compliance, and decision support.
-          </div>
-        </div>
-
-        <div className="landing-capabilities-grid">
-          {/* Card 1 */}
-          <div className="landing-capability-card">
-            <div className="landing-cap-header">
-              <span className="landing-cap-badge">DOCS</span>
-              <h3 className="landing-cap-title">Document Intelligence & Provenance</h3>
-            </div>
-            <p className="landing-cap-desc">
-              Automated OCR parsing, structured table extraction, and 5-level coordinate bounding box 
-              evidence mapping to verify underlying technical sources.
-            </p>
-            <ul className="landing-cap-list">
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Side-by-side original PDF preview with highlighted bounding boxes</span>
-              </li>
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Automatic key-value table extraction & audit field validation</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Card 2 */}
-          <div className="landing-capability-card">
-            <div className="landing-cap-header">
-              <span className="landing-cap-badge">AI</span>
-              <h3 className="landing-cap-title">AI Copilot & Research Assistant</h3>
-            </div>
-            <p className="landing-cap-desc">
-              Natural language search and citation-backed question answering over thousands of unstructured 
-              mining logs, geological surveys, and environmental filings.
-            </p>
-            <ul className="landing-cap-list">
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Cross-validated citation chains linked directly to source documents</span>
-              </li>
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Topic clustering and automated anomaly detection</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Card 3 */}
-          <div className="landing-capability-card">
-            <div className="landing-cap-header">
-              <span className="landing-cap-badge">MAP</span>
-              <h3 className="landing-cap-title">Geospatial Mining Intelligence</h3>
-            </div>
-            <p className="landing-cap-desc">
-              Interactive SVG map of India's major coal basins, coalfield lease boundaries, regional 
-              subsidiary profiles, and operational layer overlays.
-            </p>
-            <ul className="landing-cap-list">
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Basin-level drilldown into coalfield production metrics</span>
-              </li>
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Spatial layer toggling for active mines & environmental buffers</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Card 4 */}
-          <div className="landing-capability-card">
-            <div className="landing-cap-header">
-              <span className="landing-cap-badge">GOV</span>
-              <h3 className="landing-cap-title">Data Quality & Operations Governance</h3>
-            </div>
-            <p className="landing-cap-desc">
-              Multi-subsidiary conflict detection, automated quality metrics, human-in-the-loop review queues, 
-              and comprehensive system audit logs.
-            </p>
-            <ul className="landing-cap-list">
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Conflict resolution workflow with risk severity scoring</span>
-              </li>
-              <li className="landing-cap-item">
-                <span className="landing-cap-item-bullet">✓</span>
-                <span>Immutable audit trail for regulatory and executive reporting</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Closing CTA Band */}
-      <section className="landing-cta-band">
-        <div className="landing-cta-container">
-          <h2 className="landing-cta-title">Enter the Mining Intelligence Platform</h2>
-          <p className="landing-cta-desc">
-            Direct access to the executive operations dashboard, document workspace, AI copilot, and geospatial map.
-          </p>
-          <Link to="/dashboard" className="landing-btn-hero-primary">
-            <span>Enter Dashboard</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
-      </section>
-
-      {/* 6. Simple Footer */}
       <footer className="landing-footer">
-        <div className="landing-footer-container">
-          <div>
-            <div className="landing-footer-brand">
-              Central Mine Planning & Design Institute Limited (CMPDI)
-            </div>
+        <div className="landing-shell landing-footer__inner">
+          <div className="landing-footer-brand-block">
+            <div className="landing-footer-brand">Central Mine Planning & Design Institute Limited (CMPDI)</div>
             <div className="landing-footer-text">
-              A Mini Ratna Category-I Public Sector Undertaking under Coal India Limited / Ministry of Coal, Government of India.
+              A Mini Ratna Category-I Public Sector Undertaking under Coal India Limited and the Ministry of Coal, Government of India.
             </div>
           </div>
-          <div className="landing-footer-text">
-            © {new Date().getFullYear()} CMPDI / Coal India Limited. All Rights Reserved.
+
+          <div className="landing-footer-meta">
+            <span>© {new Date().getFullYear()} CMPDI / Coal India Limited</span>
+            <span>All Rights Reserved</span>
           </div>
         </div>
       </footer>

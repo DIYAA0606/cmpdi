@@ -7,7 +7,7 @@ const routeLabels = {
   '/ai-intelligence': 'AI Intelligence',
   '/ai-intelligence/topics': 'Topics',
   '/reports': 'Reports & Responses',
-  '/reports/parliamentary': 'Parliamentary',
+  '/reports/parliamentary': 'Parliamentary Workflow',
   '/mining-map': 'Mining Map',
   '/data-quality': 'Data Quality',
   '/data-quality/metrics': 'Metrics',
