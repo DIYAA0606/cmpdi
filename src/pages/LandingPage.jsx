@@ -186,21 +186,38 @@ export default function LandingPage() {
                 AI-assisted document processing, evidence-driven analysis, and operational oversight for coalfield governance and mine intelligence.
               </p>
 
-              <div className="landing-hero-actions">
-                <Link to="/dashboard" className="landing-primary-button">
-                  <span>Enter Platform</span>
-                  <ArrowIcon />
-                </Link>
-                <a href="#platform" className="landing-secondary-button">
-                  Explore capabilities
-                </a>
-              </div>
+              <form className="landing-ai-console" onSubmit={handleQuerySubmit}>
+                <div className="landing-ai-console__header">
+                  <div className="landing-ai-console__title">
+                    <span className="landing-ai-console__dots" aria-hidden="true">
+                      <span />
+                      <span />
+                      <span />
+                    </span>
+                    <span>AI QUERY CONSOLE</span>
+                  </div>
+                  <span className="landing-ai-console__live"><span className="landing-ai-console__live-dot" />Live</span>
+                </div>
 
-              <div className="landing-hero-trust" id="insight">
-                <span>Document intelligence</span>
-                <span>Evidence traceability</span>
-                <span>Institutional oversight</span>
-              </div>
+                <div className="landing-ai-console__prompt" aria-label="Suggested AI query">
+                  <span className="landing-ai-console__prompt-mark">›</span>
+                  <span>{EXAMPLE_PROMPTS[0]}</span>
+                </div>
+
+                <div className="landing-ai-console__input-row">
+                  <input
+                    type="text"
+                    value={queryInput}
+                    onChange={(event) => setQueryInput(event.target.value)}
+                    placeholder="Ask about production, compliance, safety..."
+                    aria-label="Ask about production, compliance, safety"
+                  />
+                  <button type="submit">
+                    <span>Ask AI</span>
+                    <ArrowIcon />
+                  </button>
+                </div>
+              </form>
             </div>
 
             <div className="landing-hero-panel" aria-label="Operations overview panel">
@@ -328,37 +345,6 @@ export default function LandingPage() {
                 <li><span className="landing-list-check"><CheckIcon /></span> CCL, WCL, SECL, and MCL operational indicators are active.</li>
                 <li><span className="landing-list-check"><CheckIcon /></span> Governance and compliance reporting continue to be evidence-linked.</li>
               </ul>
-            </div>
-          </div>
-        </section>
-
-        <section className="landing-query-section landing-shell">
-          <div className="landing-query-panel">
-            <div className="landing-query-copy">
-              <p className="landing-kicker">AI assistance</p>
-              <h2>Ask the platform for immediate operational insight.</h2>
-            </div>
-
-            <form onSubmit={handleQuerySubmit} className="landing-query-form">
-              <input
-                type="text"
-                value={queryInput}
-                onChange={(e) => setQueryInput(e.target.value)}
-                placeholder="Ask about production, compliance, safety, or verification status..."
-                aria-label="Ask the platform a question"
-              />
-              <button type="submit" className="landing-primary-button">
-                <span>Ask AI</span>
-                <ArrowIcon />
-              </button>
-            </form>
-
-            <div className="landing-prompt-pills">
-              {EXAMPLE_PROMPTS.map((promptText) => (
-                <button key={promptText} type="button" className="landing-prompt-pill" onClick={() => handlePillClick(promptText)}>
-                  {promptText}
-                </button>
-              ))}
             </div>
           </div>
         </section>

@@ -24,12 +24,16 @@ export default function AppShell() {
     setIsDesktopCollapsed((state) => !state)
   }
 
-  if (location.pathname.startsWith('/dashboard')) {
+  if (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/documents')) {
     return (
       <div className="dashboard-shell">
         <Outlet />
       </div>
     )
+  }
+
+  if (location.pathname.startsWith('/mining-map')) {
+    return <Outlet />
   }
 
   return (
